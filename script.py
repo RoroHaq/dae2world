@@ -13,7 +13,7 @@ def dae2world(dae_path, model_name):
       meshes_folder.mkdir(parents=True)
       print('Folder made!')
   else:
-     ('Folder already created')
+     print('Folder already created')
   print(current_path)
 
 def main():
