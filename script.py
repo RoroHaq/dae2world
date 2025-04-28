@@ -5,6 +5,7 @@ from pathlib import Path
 
 def dae2world(dae_path, model_name):
   current_path = Path.cwd()
+  file_name = Path(dae_path).name
   models_folder = current_path / 'models'
   specific_model_folder = models_folder / model_name
   meshes_folder = specific_model_folder / 'meshes'
@@ -14,6 +15,8 @@ def dae2world(dae_path, model_name):
       print('Folder made!')
   else:
      print('Folder already created')
+  file_custom_directory = meshes_folder / file_name
+  shutil.copyfile(dae_path, file_custom_directory)
   print(current_path)
 
 def main():
