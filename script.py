@@ -1,8 +1,25 @@
 import argparse
 import shutil
 import os
+import jinja2
 from pathlib import Path
 
+config_file_template = '''
+<?xml version="1.0" ?>
+<model>
+  <name>{{ model_name }}</name>
+  <version>1.0</version>
+  <sdf version="1.6">f{{ sdf_file }}</sdf>
+  <author>
+    <name>User</name>
+    <email>you@example.com</email>
+  </author>
+  <description>
+    Model Mesh
+  </description>
+</model>
+
+'''
 def dae2world(dae_path, model_name):
   current_path = Path.cwd()
   file_name = Path(dae_path).name
@@ -17,6 +34,7 @@ def dae2world(dae_path, model_name):
      print('Folder already created')
   file_custom_directory = meshes_folder / file_name
   shutil.copyfile(dae_path, file_custom_directory)
+
   print(current_path)
 
 def main():
