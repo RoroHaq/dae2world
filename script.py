@@ -20,19 +20,19 @@ def dae2world(dae_path, model_name):
   else:
       print('Folder already created')
   print(Path.home())
-  destination_folder = Path.home() / '.gz' / 'models' / model_name
+  destination_folder = Path.home() / '.gazebo' / 'models' / model_name
 
   if not destination_folder.exists():
     destination_folder.mkdir(parents=True)
-
-  shutil.copytree(specific_model_folder, destination_folder)
   file_custom_directory = meshes_folder / mesh_name
 
   shutil.copyfile(dae_path, file_custom_directory)
 
+  shutil.copytree(specific_model_folder, destination_folder, dirs_exist_ok=True)
+
   # SDF File Creation
   sdf_file_path = specific_model_folder / 'model.sdf'
-  sdf_file_render = sdf_file_template.render(dae_path_from_home='example')
+  sdf_file_render = sdf_file_template.render(dae_path_from_home=f'model://{model_name}/meshes/{mesh_name}')
   with open(sdf_file_path, 'w', encoding='utf-8') as f:
      f.write(sdf_file_render)
   # Config File Creation
@@ -42,6 +42,8 @@ def dae2world(dae_path, model_name):
     f.write(config_render)
   print(current_path)
 
+  shutil.copy(config_file_path, destination_folder)
+  shutil.copy(sdf_file_path, destination_folder)
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-df', dest='dae_path', required=True)
