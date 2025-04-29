@@ -44,6 +44,14 @@ def dae2world(dae_path, model_name):
 
   shutil.copy(config_file_path, destination_folder)
   shutil.copy(sdf_file_path, destination_folder)
+
+  worlds_folder = current_path / 'worlds'
+  if not worlds_folder.exists():
+      worlds_folder.mkdir(parents=True)
+      print('Folder made!')
+  else:
+      print('Folder already created')
+
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-df', dest='dae_path', required=True)
