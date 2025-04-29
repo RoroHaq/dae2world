@@ -1,25 +1,11 @@
 import argparse
 import shutil
 import os
-import jinja2
+from jinja2 import Template
 from pathlib import Path
 
-config_file_template = '''
-<?xml version="1.0" ?>
-<model>
-  <name>{{ model_name }}</name>
-  <version>1.0</version>
-  <sdf version="1.6">f{{ sdf_file }}</sdf>
-  <author>
-    <name>User</name>
-    <email>you@example.com</email>
-  </author>
-  <description>
-    Model Mesh
-  </description>
-</model>
+config_file_template = Template(Path('config_template.xml').read_text(encoding='utf-8'))
 
-'''
 def dae2world(dae_path, model_name):
   current_path = Path.cwd()
   file_name = Path(dae_path).name
@@ -35,6 +21,11 @@ def dae2world(dae_path, model_name):
   file_custom_directory = meshes_folder / file_name
   shutil.copyfile(dae_path, file_custom_directory)
 
+  sdf_file = "example.sdf"
+  config_file_path = specific_model_folder / 'model.config'
+  config_render = config_file_template.render(model_name= model_name, sdf_file=sdf_file)
+  with open(config_file_path, 'w', encoding='utf-8') as f:
+    f.write(config_render)
   print(current_path)
 
 def main():
