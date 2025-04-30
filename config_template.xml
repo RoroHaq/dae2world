@@ -2,7 +2,7 @@
 <model>
   <name>{{ model_name }}</name>
   <version>1.0</version>
-  <sdf version="1.6">f{{ sdf_file }}</sdf>
+  <sdf version="1.6">{{ sdf_file }}</sdf>
   <author>
     <name>User</name>
     <email>you@example.com</email>

@@ -6,7 +6,7 @@ from pathlib import Path
 
 config_file_template = Template(Path('config_template.xml').read_text(encoding='utf-8'))
 sdf_file_template = Template(Path('model_sdf_template.xml').read_text(encoding='utf-8')) 
-world_file_template = Template(Path('world_template.xmk').read_text(encoding='utf-8'))
+world_file_template = Template(Path('world_template.xml').read_text(encoding='utf-8'))
 def dae2world(dae_path, model_name, gazebo_type):
   current_path = Path.cwd()
   mesh_name = Path(dae_path).name
@@ -51,7 +51,11 @@ def dae2world(dae_path, model_name, gazebo_type):
       print('Folder made!')
   else:
       print('Folder already created')
-
+  
+  world_file_path = worlds_folder / f'{model_name}.world'
+  world_render = world_file_template.render(model_folder= f'model://{model_name}')
+  with open(world_file_path, 'w', encoding='utf-8') as f:
+     f.write(world_render)
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-df', dest='dae_path', required=True)
