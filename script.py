@@ -1,7 +1,6 @@
 import argparse
 import shutil
-import os
-from jinja2 import Template, Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader
 from pathlib import Path
 env = Environment(loader=FileSystemLoader('templates'))
 
@@ -57,6 +56,7 @@ def dae2world(dae_path, model_name, gazebo_type):
   world_render = world_file_template.render(model_folder= f'model://{model_name}')
   with open(world_file_path, 'w', encoding='utf-8') as f:
      f.write(world_render)
+     
 def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-df', dest='dae_path', required=True)
