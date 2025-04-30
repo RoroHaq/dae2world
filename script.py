@@ -1,12 +1,13 @@
 import argparse
 import shutil
 import os
-from jinja2 import Template
+from jinja2 import Template, Environment, FileSystemLoader
 from pathlib import Path
+env = Environment(loader=FileSystemLoader('templates'))
 
-config_file_template = Template(Path('config_template.xml').read_text(encoding='utf-8'))
-sdf_file_template = Template(Path('model_sdf_template.xml').read_text(encoding='utf-8')) 
-world_file_template = Template(Path('world_template.xml').read_text(encoding='utf-8'))
+config_file_template = env.get_template('config_template.xml')
+sdf_file_template =  env.get_template('model_sdf_template.xml')
+world_file_template = env.get_template('world_template.xml')
 def dae2world(dae_path, model_name, gazebo_type):
   current_path = Path.cwd()
   mesh_name = Path(dae_path).name
@@ -60,7 +61,7 @@ def main():
   parser = argparse.ArgumentParser()
   parser.add_argument('-df', dest='dae_path', required=True)
   parser.add_argument('-n', dest='model_name', required=True)
-  parser.add_argument('-t', dest='gazebo_type', default='gz')
+  parser.add_argument('-t', dest='gazebo_type', default='gazebo')
   args = parser.parse_args()
 
   dae2world(args.dae_path, args.model_name, args.gazebo_type)
